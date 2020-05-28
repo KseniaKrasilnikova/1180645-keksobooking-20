@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ксения Красильникова](https://up.htmlacademy.ru/javascript/20/user/1180645).
-* Наставник: `Александр Пинаев`.
+* Наставник: `Александр Пинаев` (https://up.htmlacademy.ru/javascript/20/user/1180645).
 
 ---
 
