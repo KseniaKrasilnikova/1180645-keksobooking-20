@@ -1,11 +1,12 @@
 // генерация случайных данных
 'use strict';
 
-var adType = ['palace', 'flat', 'house', 'bungalo'];
-var adCheckType = ['12:00', '13:00', '14:00'];
+var adTypes = ['palace', 'flat', 'house', 'bungalo'];
+var adCheckTypes = ['12:00', '13:00', '14:00'];
 var adFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var adPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-
+var PIN_HEIGHT = 70;
+var PIN_HALF_WIDTH = 25;
 
 var getAds = function (count) {
   var ads = [];
@@ -28,11 +29,11 @@ function getAd(number) {
       'title': 'Заголовок ' + number,
       'address': location.x + ', ' + location.y,
       'price': getRandomInt(400, 2000),
-      'type': getRandomArrayItem(adType),
+      'type': getRandomArrayItem(adTypes),
       'rooms': getRandomInt(1, 6),
       'guests': getRandomInt(1, 20),
-      'checkin': getRandomArrayItem(adCheckType),
-      'checkout': getRandomArrayItem(adCheckType),
+      'checkin': getRandomArrayItem(adCheckTypes),
+      'checkout': getRandomArrayItem(adCheckTypes),
       'features': getRandomSubarray(adFeatures),
       'description': 'Описание ' + number,
       'photos': getRandomSubarray(adPhotos)
@@ -49,7 +50,7 @@ function getRandomInt(min, max) {
 }
 
 function getRandomArrayItem(array) {
-  return array[Math.floor(Math.random() * array.length)];
+  return array[getRandomInt(0, array.length)];
 }
 
 function getRandomSubarray(array) {
@@ -71,8 +72,8 @@ var renderAd = function (ad) {
   var adElement = pinTemplate.cloneNode(true);
   var avatarElement = adElement.getElementsByTagName('img')[0];
 
-  adElement.style.left = ad.location.x - 25 + 'px';
-  adElement.style.top = ad.location.y - 70 + 'px';
+  adElement.style.left = ad.location.x - PIN_HALF_WIDTH + 'px';
+  adElement.style.top = ad.location.y - PIN_HEIGHT + 'px';
   avatarElement.src = ad.author.avatar;
   avatarElement.alt = ad.offer.title;
 
