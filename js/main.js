@@ -33,7 +33,7 @@ function getAd(number) {
     'offer': {
       'title': 'Заголовок ' + number,
       'address': location.x + ', ' + location.y,
-      'price': getRandomInt(400, 2000),
+      'price': getRandomInt(400, 1000000),
       'type': getRandomArrayItem(Object.keys(adTypes)),
       'rooms': getRandomInt(1, 6),
       'guests': getRandomInt(1, 20),
@@ -64,9 +64,7 @@ function getRandomSubarray(array) {
   });
 }
 
-/**/
-
-document.querySelector('.map').classList.remove('map--faded');
+// document.querySelector('.map').classList.remove('map--faded');
 
 // функция создания DOM-элемента на основе JS-объекта
 
@@ -153,16 +151,63 @@ function renderAdPhotos(adElement, photos) {
 }
 
 // функция заполнения блока DOM-элементами
-
-var appendAdElements = function (ads) {
+var appendAdPinElements = function (ads) {
   var adFragmentPin = document.createDocumentFragment();
-  var adFragmentCard = document.createDocumentFragment();
-  adFragmentCard.appendChild(renderAdCard(ads[0]));
   for (var i = 0; i < ads.length; i++) {
     adFragmentPin.appendChild(renderAdPin(ads[i]));
   }
   document.querySelector('.map__pins').appendChild(adFragmentPin);
+};
+
+var appendAdCardElement = function (ad) {
+  var adFragmentCard = document.createDocumentFragment();
+  adFragmentCard.appendChild(renderAdCard(ad));
   document.querySelector('.map').insertBefore(adFragmentCard, document.querySelector('.map__filters-container'));
 };
 
-appendAdElements(getAds(8));
+// appendAdElements(getAds(8));
+
+// доверяй, но проверяй (часть 1)
+// Неактивное состояние.
+
+var formElement = document.querySelector('.ad-form');
+
+function disableInputs(form, tagName, isDisable) {
+  var elements = form.getElementsByTagName(tagName);
+  for (var i = 0; i < elements.length; i++) {
+    if (isDisable) {
+      elements[i].setAttribute('disabled', 'true');
+    } else {
+      elements[i].removeAttribute('disabled');
+    }
+  }
+}
+
+// Активация страницы ЛКМ, Enter
+var mapPinMainElement = document.querySelector('.map__pin--main');
+
+function activatePage() {
+  return function (evt) {
+    if (evt.button === 0 || evt.key === 'Enter') {
+      document.querySelector('.map').classList.remove('map--faded');
+      document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+      disableInputs(formElement, 'input', false);
+      disableInputs(formElement, 'select', false);
+    }
+  };
+}
+
+function setAddress() {
+  var x = parseInt(mapPinMainElement.style.left, 10) + Math.floor(mapPinMainElement.offsetWidth / 2);
+  var y = parseInt(mapPinMainElement.style.top, 10) + mapPinMainElement.offsetHeight;
+  formElement.querySelector('#address').value = x + ', ' + y;
+}
+
+// Запуск
+disableInputs(formElement, 'input', true);
+disableInputs(formElement, 'select', true);
+
+setAddress();
+
+mapPinMainElement.addEventListener('mousedown', activatePage(), true);
+mapPinMainElement.addEventListener('keydown', activatePage(), true);
