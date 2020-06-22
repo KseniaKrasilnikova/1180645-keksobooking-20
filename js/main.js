@@ -193,6 +193,7 @@ function activatePage() {
       document.querySelector('.ad-form').classList.remove('ad-form--disabled');
       disableInputs(formElement, 'input', false);
       disableInputs(formElement, 'select', false);
+      setAddress();
     }
   };
 }
@@ -203,9 +204,34 @@ function setAddress() {
   formElement.querySelector('#address').value = x + ', ' + y;
 }
 
+// Валидация комнат и гостей
+var roomsNumber = document.querySelector('#room_number');
+var guestsNumber = document.querySelector('#capacity');
+var mapRooms = {
+  '1': [0, 1, 3],
+  '2': [0, 3],
+  '3': [3],
+  '100': [0, 1, 2]
+};
+
+var disableSelectOptions = function (selectElement, disabledIndexes) {
+  var options = selectElement.getElementsByTagName('option');
+  for (var i = 0; i < options.length; i++) {
+    options[i].removeAttribute('disabled');
+  }
+  disabledIndexes.forEach(function (disabledIndex) {
+    options[disabledIndex].setAttribute('disabled', 'true');
+  });
+};
+
+roomsNumber.addEventListener('change', function (event) {
+  disableSelectOptions(guestsNumber, mapRooms[event.target.value]);
+});
+
 // Запуск
 disableInputs(formElement, 'input', true);
 disableInputs(formElement, 'select', true);
+disableSelectOptions(guestsNumber, mapRooms['1']);
 
 setAddress();
 
