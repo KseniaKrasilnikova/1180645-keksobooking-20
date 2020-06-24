@@ -172,7 +172,7 @@ var appendAdCardElement = function (ad) {
 
 var formElement = document.querySelector('.ad-form');
 
-function disableInputs(form, tagName, isDisable) {
+function setDisabledAttributes(form, tagName, isDisable) {
   var elements = form.getElementsByTagName(tagName);
   for (var i = 0; i < elements.length; i++) {
     if (isDisable) {
@@ -191,8 +191,8 @@ function activatePage() {
     if (evt.button === 0 || evt.key === 'Enter') {
       document.querySelector('.map').classList.remove('map--faded');
       document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-      disableInputs(formElement, 'input', false);
-      disableInputs(formElement, 'select', false);
+      setDisabledAttributes(formElement, 'input', false);
+      setDisabledAttributes(formElement, 'select', false);
       setAddress();
     }
   };
@@ -213,6 +213,30 @@ var mapRooms = {
   '3': [3],
   '100': [0, 1, 2]
 };
+var publishButton = document.querySelector('.ad-form__submit');
+
+function isGuestsAndRoomsValid() {
+  var value = roomsNumber.options[roomsNumber.selectedIndex].value;
+  var isValid = !mapRooms[value].includes(guestsNumber.selectedIndex);
+  if (!isValid) {
+    roomsNumber.style.borderColor = 'red';
+    guestsNumber.style.borderColor = 'red';
+  }
+  return isValid;
+}
+
+function isFormValid() {
+  // plus more validation checks
+  return isGuestsAndRoomsValid();
+}
+
+publishButton.addEventListener('click', function (evt) {
+  if (isFormValid()) {
+    // submit form
+  } else {
+    evt.preventDefault();
+  }
+});
 
 var disableSelectOptions = function (selectElement, disabledIndexes) {
   var options = selectElement.getElementsByTagName('option');
@@ -229,8 +253,8 @@ roomsNumber.addEventListener('change', function (event) {
 });
 
 // Запуск
-disableInputs(formElement, 'input', true);
-disableInputs(formElement, 'select', true);
+setDisabledAttributes(formElement, 'input', true);
+setDisabledAttributes(formElement, 'select', true);
 disableSelectOptions(guestsNumber, mapRooms['1']);
 
 setAddress();
