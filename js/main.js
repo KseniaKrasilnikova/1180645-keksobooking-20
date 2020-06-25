@@ -12,6 +12,7 @@ var adFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 var adPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var PIN_HEIGHT = 70;
 var PIN_HALF_WIDTH = 25;
+var PIN_TAIL = 22;
 
 var getAds = function (count) {
   var ads = [];
@@ -186,21 +187,21 @@ function setDisabledAttributes(form, tagName, isDisable) {
 // Активация страницы ЛКМ, Enter
 var mapPinMainElement = document.querySelector('.map__pin--main');
 
-function activatePage() {
-  return function (evt) {
-    if (evt.button === 0 || evt.key === 'Enter') {
-      document.querySelector('.map').classList.remove('map--faded');
-      document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-      setDisabledAttributes(formElement, 'input', false);
-      setDisabledAttributes(formElement, 'select', false);
-      setAddress();
-    }
-  };
-}
+var activatePage = function (evt) {
+  if (evt.button === 0 || evt.key === 'Enter') {
+    document.querySelector('.map').classList.remove('map--faded');
+    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+    setDisabledAttributes(formElement, 'input', false);
+    setDisabledAttributes(formElement, 'select', false);
+    setAddress();
+  }
+};
 
 function setAddress() {
+  var isActivated = document.querySelector('.map--faded') !== null;
+  var yOffset = isActivated ? Math.floor(mapPinMainElement.offsetHeight / 2) : mapPinMainElement.offsetHeight + PIN_TAIL;
   var x = parseInt(mapPinMainElement.style.left, 10) + Math.floor(mapPinMainElement.offsetWidth / 2);
-  var y = parseInt(mapPinMainElement.style.top, 10) + mapPinMainElement.offsetHeight;
+  var y = parseInt(mapPinMainElement.style.top, 10) + yOffset;
   formElement.querySelector('#address').value = x + ', ' + y;
 }
 
@@ -252,6 +253,17 @@ roomsNumber.addEventListener('change', function (event) {
   disableSelectOptions(guestsNumber, mapRooms[event.target.value]);
 });
 
+// Валидация:соотношение типа жилья и цены
+var mapMinPriceAndType = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+formElement.querySelector('#type').addEventListener('change', function (event) {
+  formElement.querySelector('#price').setAttribute('min', mapMinPriceAndType[event.target.value]);
+});
+
 // Запуск
 setDisabledAttributes(formElement, 'input', true);
 setDisabledAttributes(formElement, 'select', true);
@@ -259,5 +271,5 @@ disableSelectOptions(guestsNumber, mapRooms['1']);
 
 setAddress();
 
-mapPinMainElement.addEventListener('mousedown', activatePage(), true);
-mapPinMainElement.addEventListener('keydown', activatePage(), true);
+mapPinMainElement.addEventListener('mousedown', activatePage, true);
+mapPinMainElement.addEventListener('keydown', activatePage, true);
