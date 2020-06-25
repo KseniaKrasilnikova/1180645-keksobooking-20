@@ -215,25 +215,40 @@ var mapRooms = {
 };
 var publishButton = document.querySelector('.ad-form__submit');
 
-function isGuestsAndRoomsValid() {
+function validateGuestsAndRooms() {
   var value = roomsNumber.options[roomsNumber.selectedIndex].value;
   var isValid = !mapRooms[value].includes(guestsNumber.selectedIndex);
   if (!isValid) {
-    roomsNumber.style.borderColor = 'red';
-    guestsNumber.style.borderColor = 'red';
+    roomsNumber.classList.add('invalid-field');
+    guestsNumber.classList.add('invalid-field');
+    roomsNumber.setCustomValidity('Количество гостей не соответствует выбранному количеству комнат');
+    guestsNumber.setCustomValidity('Количество гостей не соответствует выбранному количеству комнат');
   }
   return isValid;
 }
 
+roomsNumber.addEventListener('click', function () {
+  removeError(guestsNumber);
+  removeError(roomsNumber);
+});
+
+guestsNumber.addEventListener('click', function () {
+  removeError(guestsNumber);
+  removeError(roomsNumber);
+});
+
+function removeError(targetElement) {
+  targetElement.classList.remove('invalid-field');
+  targetElement.setCustomValidity('');
+}
+
 function isFormValid() {
   // plus more validation checks
-  return isGuestsAndRoomsValid();
+  return validateGuestsAndRooms();
 }
 
 publishButton.addEventListener('click', function (evt) {
-  if (isFormValid()) {
-    // submit form
-  } else {
+  if (!isFormValid()) {
     evt.preventDefault();
   }
 });
