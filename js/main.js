@@ -65,8 +65,6 @@ function getRandomSubarray(array) {
   });
 }
 
-// document.querySelector('.map').classList.remove('map--faded');
-
 // функция создания DOM-элемента на основе JS-объекта
 var renderAdPin = function (ad) {
   var pinTemplate = document.querySelector('#pin')
@@ -82,14 +80,16 @@ var renderAdPin = function (ad) {
 
   // открыть карточку любого доступного объявления
   adElement.addEventListener('click', function () {
+    var activePinElement = document.querySelector('.map__pin--active');
+    if (activePinElement !== null) {
+      activePinElement.classList.remove('map__pin--active');
+    }
     adElement.classList.add('map__pin--active');
     appendAdCardElement(ad);
-    // adElement.classList.remove('map__pin--active');
   });
 
   return adElement;
 };
-
 
 var renderAdCard = function (ad) {
   var cardTemplate = document.querySelector('#card')
@@ -185,6 +185,10 @@ var appendAdPinElements = function (ads) {
 };
 
 var appendAdCardElement = function (ad) {
+  var activeCardElement = document.querySelector('.map__card');
+  if (activeCardElement !== null) {
+    activeCardElement.classList.remove('map__card');
+  }
   var adFragmentCard = document.createDocumentFragment();
   adFragmentCard.appendChild(renderAdCard(ad));
   document.querySelector('.map').insertBefore(adFragmentCard, document.querySelector('.map__filters-container'));
@@ -248,8 +252,8 @@ function validateGuestsAndRooms() {
   var value = roomsNumber.options[roomsNumber.selectedIndex].value;
   var isValid = !mapRooms[value].includes(guestsNumber.selectedIndex);
   if (!isValid) {
-    roomsNumber.classList.add('invalid-field');
-    guestsNumber.classList.add('invalid-field');
+    roomsNumber.classList.add('ad-form__element--invalid');
+    guestsNumber.classList.add('ad-form__element--invalid');
     roomsNumber.setCustomValidity('Количество гостей не соответствует выбранному количеству комнат');
     guestsNumber.setCustomValidity('Количество гостей не соответствует выбранному количеству комнат');
   }
@@ -267,7 +271,7 @@ guestsNumber.addEventListener('click', function () {
 });
 
 function removeError(targetElement) {
-  targetElement.classList.remove('invalid-field');
+  targetElement.classList.remove('ad-form__element--invalid');
   targetElement.setCustomValidity('');
 }
 
