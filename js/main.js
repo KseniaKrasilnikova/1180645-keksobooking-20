@@ -84,6 +84,10 @@ var renderAdPin = function (ad) {
     if (activePinElement !== null) {
       activePinElement.classList.remove('map__pin--active');
     }
+    var opendCardElement = document.querySelector('.map__card');
+    if (opendCardElement !== null) {
+      opendCardElement.remove();
+    }
     adElement.classList.add('map__pin--active');
     appendAdCardElement(ad);
   });
