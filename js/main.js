@@ -12,6 +12,15 @@ var adFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'condit
 var adPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var PIN_HEIGHT = 70;
 var PIN_HALF_WIDTH = 25;
+var PIN_TAIL = 22;
+
+var getAds = function (count) {
+  var ads = [];
+  for (var i = 1; i <= count; i++) {
+    ads.push(getAd(i));
+  }
+  return ads;
+};
 
 function getAd(number) {
   var location = {
@@ -56,10 +65,7 @@ function getRandomSubarray(array) {
   });
 }
 
-// document.querySelector('.map').classList.remove('map--faded');
-
 // функция создания DOM-элемента на основе JS-объекта
-
 var renderAdPin = function (ad) {
   var pinTemplate = document.querySelector('#pin')
     .content
@@ -71,6 +77,20 @@ var renderAdPin = function (ad) {
   adElement.style.top = ad.location.y - PIN_HEIGHT + 'px';
   avatarElement.src = ad.author.avatar;
   avatarElement.alt = ad.offer.title;
+
+  // открыть карточку любого доступного объявления
+  adElement.addEventListener('click', function () {
+    var activePinElement = document.querySelector('.map__pin--active');
+    if (activePinElement !== null) {
+      activePinElement.classList.remove('map__pin--active');
+    }
+    var opendCardElement = document.querySelector('.map__card');
+    if (opendCardElement !== null) {
+      opendCardElement.remove();
+    }
+    adElement.classList.add('map__pin--active');
+    appendAdCardElement(ad);
+  });
 
   return adElement;
 };
@@ -97,6 +117,23 @@ var renderAdCard = function (ad) {
   adFeature.textContent = ad.offer.features;
   adDescription.textContent = ad.offer.description;
   renderAdPhotos(adElement, ad.offer.photos);
+
+  //  закрыть карточку с подробной информацией
+  var popupClose = adElement.querySelector('.popup__close');
+
+  var closeCard = function (evt) {
+    if (evt.button === 0 || evt.key === 'Escape') {
+      adElement.remove();
+    }
+  };
+
+  popupClose.addEventListener('mousedown', closeCard, true);
+  document.addEventListener('keydown', closeCard, true);
+  popupClose.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      adElement.remove();
+    }
+  }, true);
 
   return adElement;
 };
@@ -152,14 +189,16 @@ var appendAdPinElements = function (ads) {
 };
 
 var appendAdCardElement = function (ad) {
+  var activeCardElement = document.querySelector('.map__card');
+  if (activeCardElement !== null) {
+    activeCardElement.classList.remove('map__card');
+  }
   var adFragmentCard = document.createDocumentFragment();
   adFragmentCard.appendChild(renderAdCard(ad));
   document.querySelector('.map').insertBefore(adFragmentCard, document.querySelector('.map__filters-container'));
 };
 
-// доверяй, но проверяй (часть 1)
 // Неактивное состояние.
-
 var formElement = document.querySelector('.ad-form');
 
 function setDisabledAttributes(form, tagName, isDisable) {
@@ -176,21 +215,29 @@ function setDisabledAttributes(form, tagName, isDisable) {
 // Активация страницы ЛКМ, Enter
 var mapPinMainElement = document.querySelector('.map__pin--main');
 
-function activatePage() {
-  return function (evt) {
-    if (evt.button === 0 || evt.key === 'Enter') {
-      document.querySelector('.map').classList.remove('map--faded');
-      document.querySelector('.ad-form').classList.remove('ad-form--disabled');
-      setDisabledAttributes(formElement, 'input', false);
-      setDisabledAttributes(formElement, 'select', false);
-      setAddress();
-    }
-  };
+var activatePage = function (evt) {
+  if (evt.button !== 0 && evt.key !== 'Enter') {
+    return;
+  }
+  if (!isActivated()) {
+    return;
+  }
+  document.querySelector('.map').classList.remove('map--faded');
+  document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+  setDisabledAttributes(formElement, 'input', false);
+  setDisabledAttributes(formElement, 'select', false);
+  appendAdPinElements(getAds(8));
+  setAddress();
+};
+
+function isActivated() {
+  return document.querySelector('.map--faded') !== null;
 }
 
 function setAddress() {
+  var yOffset = isActivated() ? Math.floor(mapPinMainElement.offsetHeight / 2) : mapPinMainElement.offsetHeight + PIN_TAIL;
   var x = parseInt(mapPinMainElement.style.left, 10) + Math.floor(mapPinMainElement.offsetWidth / 2);
-  var y = parseInt(mapPinMainElement.style.top, 10) + mapPinMainElement.offsetHeight;
+  var y = parseInt(mapPinMainElement.style.top, 10) + yOffset;
   formElement.querySelector('#address').value = x + ', ' + y;
 }
 
@@ -209,8 +256,8 @@ function validateGuestsAndRooms() {
   var value = roomsNumber.options[roomsNumber.selectedIndex].value;
   var isValid = !mapRooms[value].includes(guestsNumber.selectedIndex);
   if (!isValid) {
-    roomsNumber.classList.add('invalid-field');
-    guestsNumber.classList.add('invalid-field');
+    roomsNumber.classList.add('ad-form__element--invalid');
+    guestsNumber.classList.add('ad-form__element--invalid');
     roomsNumber.setCustomValidity('Количество гостей не соответствует выбранному количеству комнат');
     guestsNumber.setCustomValidity('Количество гостей не соответствует выбранному количеству комнат');
   }
@@ -228,7 +275,7 @@ guestsNumber.addEventListener('click', function () {
 });
 
 function removeError(targetElement) {
-  targetElement.classList.remove('invalid-field');
+  targetElement.classList.remove('ad-form__element--invalid');
   targetElement.setCustomValidity('');
 }
 
@@ -257,6 +304,29 @@ roomsNumber.addEventListener('change', function (event) {
   disableSelectOptions(guestsNumber, mapRooms[event.target.value]);
 });
 
+// Валидация:соотношение типа жилья и цены
+var mapMinPriceAndType = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+formElement.querySelector('#type').addEventListener('change', function (event) {
+  formElement.querySelector('#price').setAttribute('min', mapMinPriceAndType[event.target.value]);
+});
+
+// Валидация:соотношение времени заезда-выезда
+var checkIn = formElement.querySelector('#timein');
+var checkOut = formElement.querySelector('#timeout');
+
+checkIn.addEventListener('change', function (event) {
+  checkOut.value = event.target.value;
+});
+
+checkOut.addEventListener('change', function (event) {
+  checkIn.value = event.target.value;
+});
+
 // Запуск
 setDisabledAttributes(formElement, 'input', true);
 setDisabledAttributes(formElement, 'select', true);
@@ -264,9 +334,5 @@ disableSelectOptions(guestsNumber, mapRooms['1']);
 
 setAddress();
 
-mapPinMainElement.addEventListener('mousedown', activatePage(), true);
-mapPinMainElement.addEventListener('keydown', activatePage(), true);
-
-// Запускаю для того чтобы обойти линт
-appendAdPinElements(getAd(8));
-appendAdCardElement(getAd(0));
+mapPinMainElement.addEventListener('mousedown', activatePage, true);
+document.addEventListener('keydown', activatePage, true);
