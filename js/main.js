@@ -1,96 +1,6 @@
 // генерация случайных данных
 'use strict';
 
-var adTypes = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'bungalo': 'Бунгало'
-};
-var adCheckTypes = ['12:00', '13:00', '14:00'];
-var adFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var adPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var PIN_HEIGHT = 70;
-var PIN_HALF_WIDTH = 25;
-var PIN_TAIL = 22;
-
-var getAds = function (count) {
-  var ads = [];
-  for (var i = 1; i <= count; i++) {
-    ads.push(getAd(i));
-  }
-  return ads;
-};
-
-function getAd(number) {
-  var location = {
-    'x': getRandomInt(0, 631),
-    'y': getRandomInt(130, 630)
-  };
-  return {
-    'author': {
-      'avatar': 'img/avatars/user0' + number + '.png'
-    },
-    'offer': {
-      'title': 'Заголовок ' + number,
-      'address': location.x + ', ' + location.y,
-      'price': getRandomInt(400, 1000000),
-      'type': getRandomArrayItem(Object.keys(adTypes)),
-      'rooms': getRandomInt(1, 6),
-      'guests': getRandomInt(1, 20),
-      'checkin': getRandomArrayItem(adCheckTypes),
-      'checkout': getRandomArrayItem(adCheckTypes),
-      'features': getRandomSubarray(adFeatures),
-      'description': 'Описание ' + number,
-      'photos': getRandomSubarray(adPhotos)
-    },
-    'location': {
-      'x': location.x,
-      'y': location.y
-    }
-  };
-}
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * max) + min;
-}
-
-function getRandomArrayItem(array) {
-  return array[getRandomInt(0, array.length)];
-}
-
-function getRandomSubarray(array) {
-  return array.filter(function () {
-    return Math.random() >= 0.5;
-  });
-}
-
-// функция создания DOM-элемента на основе JS-объекта
-var renderAdPin = function (ad) {
-  var pinTemplate = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
-  var adElement = pinTemplate.cloneNode(true);
-  var avatarElement = adElement.getElementsByTagName('img')[0];
-
-  adElement.style.left = ad.location.x - PIN_HALF_WIDTH + 'px';
-  adElement.style.top = ad.location.y - PIN_HEIGHT + 'px';
-  avatarElement.src = ad.author.avatar;
-  avatarElement.alt = ad.offer.title;
-
-  // открыть карточку любого доступного объявления
-  adElement.addEventListener('click', function () {
-    var activePinElement = document.querySelector('.map__pin--active');
-    if (activePinElement !== null) {
-      activePinElement.classList.remove('map__pin--active');
-    }
-    adElement.classList.add('map__pin--active');
-    appendAdCardElement(ad);
-  });
-
-  return adElement;
-};
-
 var renderAdCard = function (ad) {
   var cardTemplate = document.querySelector('#card')
     .content
@@ -107,7 +17,7 @@ var renderAdCard = function (ad) {
   adTitle.textContent = ad.offer.title;
   adAddress.textContent = ad.offer.address;
   renderPrice(adElement, ad.offer.price);
-  adType.textContent = adTypes[ad.offer.type];
+  adType.textContent = window.data.adTypes[ad.offer.type];
   renderRoomsAndGuests(adElement, ad.offer);
   renderCheckTime(adElement, ad.offer);
   adFeature.textContent = ad.offer.features;
@@ -133,6 +43,37 @@ var renderAdCard = function (ad) {
 
   return adElement;
 };
+
+// функция создания DOM-элемента на основе JS-объекта
+var PIN_HEIGHT = 70;
+var PIN_HALF_WIDTH = 25;
+var PIN_TAIL = 22;
+
+var renderAdPin = function (ad) {
+  var pinTemplate = document.querySelector('#pin')
+    .content
+    .querySelector('.map__pin');
+  var adElement = pinTemplate.cloneNode(true);
+  var avatarElement = adElement.getElementsByTagName('img')[0];
+
+  adElement.style.left = ad.location.x - PIN_HALF_WIDTH + 'px';
+  adElement.style.top = ad.location.y - PIN_HEIGHT + 'px';
+  avatarElement.src = ad.author.avatar;
+  avatarElement.alt = ad.offer.title;
+
+  // открыть карточку любого доступного объявления
+  adElement.addEventListener('click', function () {
+    var activePinElement = document.querySelector('.map__pin--active');
+    if (activePinElement !== null) {
+      activePinElement.classList.remove('map__pin--active');
+    }
+    adElement.classList.add('map__pin--active');
+    appendAdCardElement(ad);
+  });
+
+  return adElement;
+};
+
 
 function renderPrice(adElement, price) {
   var adPrice = adElement.querySelector('.popup__text--price');
@@ -222,7 +163,7 @@ var activatePage = function (evt) {
   document.querySelector('.ad-form').classList.remove('ad-form--disabled');
   setDisabledAttributes(formElement, 'input', false);
   setDisabledAttributes(formElement, 'select', false);
-  appendAdPinElements(getAds(8));
+  appendAdPinElements(window.data.getAds(8));
   setAddress();
 };
 
