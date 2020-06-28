@@ -17,7 +17,7 @@
       ads.push(getAd(i));
     }
     return ads;
-  }
+  };
   var getAd = function (number) {
     var location = {
       'x': window.util.getRandomInt(0, 631),
@@ -45,9 +45,9 @@
         'y': location.y
       }
     };
-  }
+  };
   window.data = {
     adTypes: adTypes,
     getAds: getAds
-  }
+  };
 })();

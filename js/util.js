@@ -19,5 +19,5 @@
     getRandomInt: getRandomInt,
     getRandomArrayItem: getRandomArrayItem,
     getRandomSubarray: getRandomSubarray
-  }
+  };
 })();
