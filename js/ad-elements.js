@@ -5,7 +5,7 @@
   var appendAdPinElements = function (ads) {
     var adFragmentPin = document.createDocumentFragment();
     for (var i = 0; i < ads.length; i++) {
-      adFragmentPin.appendChild(window.pin.renderAdPin(ads[i]));
+      adFragmentPin.appendChild(window.pin.render(ads[i]));
     }
     document.querySelector('.map__pins').appendChild(adFragmentPin);
   };
@@ -16,11 +16,11 @@
       activeCardElement.classList.remove('map__card');
     }
     var adFragmentCard = document.createDocumentFragment();
-    adFragmentCard.appendChild(window.card.renderAdCard(ad));
+    adFragmentCard.appendChild(window.card.render(ad));
     document.querySelector('.map').insertBefore(adFragmentCard, document.querySelector('.map__filters-container'));
   };
-  window.addCardAndPin = {
-    appendAdPinElements: appendAdPinElements,
-    appendAdCardElement: appendAdCardElement
+  window.adElements = {
+    appendPins: appendAdPinElements,
+    appendCard: appendAdCardElement
   };
 })();

@@ -86,6 +86,6 @@
   }
 
   window.card = {
-    renderAdCard: renderAdCard
+    render: renderAdCard
   };
 })();

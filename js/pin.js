@@ -27,11 +27,11 @@
         opendCardElement.remove();
       }
       adElement.classList.add('map__pin--active');
-      window.addCardAndPin.appendAdCardElement(ad);
+      window.adElements.appendCard(ad);
     });
     return adElement;
   };
   window.pin = {
-    renderAdPin: renderAdPin
+    render: renderAdPin
   };
 })();
