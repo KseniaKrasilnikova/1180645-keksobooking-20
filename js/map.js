@@ -103,6 +103,6 @@
   window.map = {
     activatePage: activatePage,
     setAddress: setAddress,
-    mapPinMainElement: pinMainElement
+    pinMainElement: pinMainElement
   };
 })();
