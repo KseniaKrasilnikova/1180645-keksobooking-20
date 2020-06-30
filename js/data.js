@@ -10,6 +10,8 @@
   var adCheckTypes = ['12:00', '13:00', '14:00'];
   var adFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var adPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+  var MAXY = 630;
+  var MINY = 130;
 
   var getAds = function (count) {
     var ads = [];
@@ -21,7 +23,7 @@
   var getAd = function (number) {
     var location = {
       'x': window.util.getRandomInt(0, 631),
-      'y': window.util.getRandomInt(130, 630)
+      'y': window.util.getRandomInt(MINY, MAXY)
     };
     return {
       'author': {
@@ -48,6 +50,8 @@
   };
   window.data = {
     adTypes: adTypes,
-    getAds: getAds
+    getAds: getAds,
+    MAXY: MAXY,
+    MINY: MINY
   };
 })();
