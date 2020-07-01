@@ -8,5 +8,5 @@ window.form.disableSelectOptions(window.form.guestsNumber, window.form.mapRooms[
 
 window.map.setAddress();
 
-window.map.mapPinMainElement.addEventListener('mousedown', window.map.activatePage, true);
+window.map.pinMainElement.addEventListener('mousedown', window.map.activatePage, true);
 document.addEventListener('keydown', window.map.activatePage, true);
