@@ -66,19 +66,19 @@
 
       if (newX > activeMapField.offsetWidth - pinHalfWidth) {
         newX = activeMapField.offsetWidth - pinHalfWidth;
-      }
-      if (newX < -pinHalfWidth) {
+      } else if (newX < -pinHalfWidth) {
         newX = -pinHalfWidth;
       }
-      if (newY > window.data.MAXY - pinWithTailHeight) {
-        newY = window.data.MAXY - pinWithTailHeight;
-      }
-      if (newY < window.data.MINY - pinWithTailHeight) {
-        newY = window.data.MINY - pinWithTailHeight;
+      if (newY > window.data.MAX_Y - pinWithTailHeight) {
+        newY = window.data.MAX_Y - pinWithTailHeight;
+      } else if (newY < window.data.MIN_Y - pinWithTailHeight) {
+        newY = window.data.MIN_Y - pinWithTailHeight;
       }
 
       pinMainElement.style.top = newY + 'px';
       pinMainElement.style.left = newX + 'px';
+
+      setAddress();
     };
 
     var onMouseUp = function (upEvt) {
@@ -94,7 +94,6 @@
         };
         pinMainElement.addEventListener('click', onClickPreventDefault);
       }
-      setAddress();
     };
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
