@@ -20,7 +20,12 @@
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
     window.util.setDisabledAttributes(formElement, 'input', false);
     window.util.setDisabledAttributes(formElement, 'select', false);
-    window.adElements.appendPins(window.data.getAds(8));
+
+    var onSuccess = function (response) {
+      window.adElements.appendPins(response);
+    };
+
+    window.load(onSuccess);
     setAddress();
   };
 
