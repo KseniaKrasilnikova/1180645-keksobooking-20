@@ -13,8 +13,6 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
-      } else {
-        console.log('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
