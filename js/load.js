@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var URL = 'https://javascript.pages.academy/keksobooking/data';
+  var KEKSOBOOKING_DATA_URL = 'https://javascript.pages.academy/keksobooking/data';
   var StatusCode = {
     OK: 200
   };
 
-  window.load = function (onSuccess) {
+  window.loadKeksobukingData = function (onSuccess) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -16,7 +16,7 @@
       }
     });
 
-    xhr.open('GET', URL);
+    xhr.open('GET', KEKSOBOOKING_DATA_URL);
     xhr.send();
   };
 })();
