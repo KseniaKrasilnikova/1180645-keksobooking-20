@@ -83,14 +83,25 @@
   }
 
   publishButton.addEventListener('click', function (evt) {
-    if (!isFormValid()) {
+      if (isFormValid()) {
+        window.uploadKeksobookingData(new FormData(formElement), function (response) {
+          window.map.deactivatePage();
+        })
+      }
       evt.preventDefault();
     }
-  });
+  );
+
+  // Сброс формы
+  var resetForm = function() {
+
+    setAddress();
+  };
 
   window.form = {
     guestsNumber: guestsNumber,
     mapRooms: mapRooms,
-    disableSelectOptions: disableSelectOptions
+    disableSelectOptions: disableSelectOptions,
+    resetForm: resetForm
   };
 })();

@@ -44,6 +44,13 @@
     return adElement;
   };
 
+  var closeOpenedCard = function () {
+    var opendCardElement = document.querySelector('.map__card');
+    if (opendCardElement !== null) {
+      opendCardElement.remove();
+    }
+  };
+
   function renderPrice(adElement, price) {
     var adPrice = adElement.querySelector('.popup__text--price');
     adPrice.textContent = price + ' ₽/ночь';
@@ -86,6 +93,7 @@
   }
 
   window.card = {
-    render: renderAdCard
+    render: renderAdCard,
+    closeOpenedCard: closeOpenedCard
   };
 })();

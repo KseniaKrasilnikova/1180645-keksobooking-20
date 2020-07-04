@@ -19,8 +19,21 @@
     adFragmentCard.appendChild(window.card.render(ad));
     document.querySelector('.map').insertBefore(adFragmentCard, document.querySelector('.map__filters-container'));
   };
+
+  var deletePinElements = function () {
+    var pins = document.getElementsByClassName('map__pin');
+    var pinsArr = Array.prototype.slice.call(pins, 0);
+    pinsArr.forEach(function (pin) {
+      if (pin.classList.contains("map__pin--main")) {
+        return;
+      }
+      pin.remove();
+    });
+  };
+
   window.adElements = {
     appendPins: appendAdPinElements,
-    appendCard: appendAdCardElement
+    appendCard: appendAdCardElement,
+    deletePinElements: deletePinElements
   };
 })();
