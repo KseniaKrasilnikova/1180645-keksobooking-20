@@ -5,7 +5,7 @@
 
   var uploadKeksobookingData = function (data, onSuccess) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'multipart/form-data';
+    xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === window.util.StatusCode.OK) {
@@ -21,5 +21,5 @@
 
   window.upload = {
     uploadKeksobookingData: uploadKeksobookingData
-  }
+  };
 })();

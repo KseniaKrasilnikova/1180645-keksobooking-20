@@ -19,7 +19,7 @@
 
   window.load = {
     loadKeksobukingData: loadKeksobukingData,
-  }
+  };
 })();
 
 

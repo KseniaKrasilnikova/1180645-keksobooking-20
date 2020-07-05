@@ -24,7 +24,7 @@
     var pins = document.getElementsByClassName('map__pin');
     var pinsArr = Array.prototype.slice.call(pins, 0);
     pinsArr.forEach(function (pin) {
-      if (pin.classList.contains("map__pin--main")) {
+      if (pin.classList.contains('map__pin--main')) {
         return;
       }
       pin.remove();
@@ -34,6 +34,6 @@
   window.adElements = {
     appendPins: appendAdPinElements,
     appendCard: appendAdCardElement,
-    deletePinElements: deletePinElements
+    deletePins: deletePinElements
   };
 })();

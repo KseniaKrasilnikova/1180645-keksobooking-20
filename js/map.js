@@ -96,15 +96,15 @@
   });
 
   // Деактивация страницы
-  var deactivatePage = function() {
+  var deactivatePage = function () {
     document.querySelector('.map').classList.add('map--faded');
     formElement.classList.add('ad-form--disabled');
     window.util.setDisabledAttributes(formElement, 'input', true);
     window.util.setDisabledAttributes(formElement, 'select', true);
-    window.adElements.deletePinElements();
+    window.adElements.deletePins();
     window.card.closeOpenedCard();
     window.form.resetForm();
-    window.filters.resetFilters();
+    window.filters.reset();
   };
 
   window.map = {

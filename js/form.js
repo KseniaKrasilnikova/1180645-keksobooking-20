@@ -86,15 +86,14 @@
   }
 
   publishButton.addEventListener('click', function (evt) {
-      if (isFormValid()) {
-        window.upload.uploadKeksobookingData(new FormData(formElement), function (response) {
-          window.map.deactivatePage();
-          showFormSuccessMessage();
-        })
-      }
-      evt.preventDefault();
+    if (isFormValid()) {
+      window.upload.uploadKeksobookingData(new FormData(formElement), function () {
+        window.map.deactivatePage();
+        showFormSuccessMessage();
+      });
     }
-  );
+    evt.preventDefault();
+  });
 
   // Сброс формы
   var resetForm = function () {

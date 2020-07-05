@@ -19,6 +19,6 @@
   };
 
   window.filters = {
-    resetFilters: resetFilters
+    reset: resetFilters
   };
 })();
