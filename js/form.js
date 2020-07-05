@@ -55,14 +55,16 @@
   });
 
   // Валидация:соотношение типа жилья и цены
+  var houseType = formElement.querySelector('#type');
+  var housePrice = formElement.querySelector('#price');
   var mapMinPriceAndType = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
     'palace': 10000
   };
-  formElement.querySelector('#type').addEventListener('change', function (event) {
-    formElement.querySelector('#price').setAttribute('min', mapMinPriceAndType[event.target.value]);
+  houseType.addEventListener('change', function (event) {
+    housePrice.setAttribute('min', mapMinPriceAndType[event.target.value]);
   });
 
   // Валидация:соотношение времени заезда-выезда
@@ -93,9 +95,21 @@
   );
 
   // Сброс формы
-  var resetForm = function() {
-
-    setAddress();
+  var resetForm = function () {
+    roomsNumber.options[0].selected = true;
+    guestsNumber.options[0].selected = true;
+    checkIn.options[0].selected = true;
+    checkOut.options[0].selected = true;
+    houseType.options[1].selected = true;
+    housePrice.value = null;
+    formElement.querySelector('#title').value = null;
+    formElement.querySelector('#description').value = null;
+    var features = formElement.querySelector('.features').getElementsByTagName('input');
+    for (var i = 0; i < features.length; i++) {
+      features[i].checked = false;
+    }
+    window.map.setAddress();
+    // сбросить фото (2)
   };
 
   window.form = {
