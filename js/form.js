@@ -152,6 +152,11 @@
     }, true);
   };
 
+  formElement.querySelector('.ad-form__reset').addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.map.deactivatePage();
+  });
+
   window.form = {
     guestsNumber: guestsNumber,
     mapRooms: mapRooms,
