@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var pageMain = document.querySelector('main');
   // Валидация комнат и гостей
   var formElement = document.querySelector('.ad-form');
   var roomsNumber = document.querySelector('#room_number');
@@ -86,7 +87,7 @@
 
   publishButton.addEventListener('click', function (evt) {
       if (isFormValid()) {
-        window.uploadKeksobookingData(new FormData(formElement), function (response) {
+        window.upload.uploadKeksobookingData(new FormData(formElement), function (response) {
           window.map.deactivatePage();
           showFormSuccessMessage();
         })
@@ -115,7 +116,6 @@
 
   // Сообщение об успешном создании объявления
   var showFormSuccessMessage = function () {
-    var pageMain = document.querySelector('main');
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
     var successFragment = document.createDocumentFragment();
@@ -130,10 +130,33 @@
     document.addEventListener('keydown', closeFormSuccessMessage, true);
   };
 
+  // Сообщение об ошибке создания объявления
+  var showFormErrorMessage = function () {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorFragment = document.createDocumentFragment();
+    var errorClose = document.querySelector('.error__button');
+    errorFragment.appendChild(errorElement);
+    pageMain.appendChild(errorFragment);
+    var closeFormErrorMessage = function (evt) {
+      if (evt.button === 0 || evt.key === 'Escape') {
+        errorElement.remove();
+      }
+    };
+    document.addEventListener('mousedown', closeFormErrorMessage, true);
+    document.addEventListener('keydown', closeFormErrorMessage, true);
+    errorClose.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Enter') {
+        errorElement.remove();
+      }
+    }, true);
+  };
+
   window.form = {
     guestsNumber: guestsNumber,
     mapRooms: mapRooms,
     disableSelectOptions: disableSelectOptions,
-    resetForm: resetForm
+    resetForm: resetForm,
+    showFormErrorMessage: showFormErrorMessage
   };
 })();

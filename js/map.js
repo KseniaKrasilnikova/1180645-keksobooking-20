@@ -25,7 +25,7 @@
       window.adElements.appendPins(response);
     };
 
-    window.loadKeksobukingData(onSuccess);
+    window.load.loadKeksobukingData(onSuccess);
     setAddress();
   };
 

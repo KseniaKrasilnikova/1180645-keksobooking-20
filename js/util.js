@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var StatusCode = {
+    OK: 200
+  };
+
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * max) + min;
   }
@@ -31,6 +35,7 @@
     getRandomInt: getRandomInt,
     getRandomArrayItem: getRandomArrayItem,
     getRandomSubarray: getRandomSubarray,
-    setDisabledAttributes: setDisabledAttributes
+    setDisabledAttributes: setDisabledAttributes,
+    StatusCode: StatusCode
   };
 })();
