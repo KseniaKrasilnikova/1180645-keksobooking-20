@@ -88,6 +88,7 @@
       if (isFormValid()) {
         window.uploadKeksobookingData(new FormData(formElement), function (response) {
           window.map.deactivatePage();
+          showFormSuccessMessage();
         })
       }
       evt.preventDefault();
@@ -110,6 +111,23 @@
     }
     window.map.setAddress();
     // сбросить фото (2)
+  };
+
+  // Сообщение об успешном создании объявления
+  var showFormSuccessMessage = function () {
+    var pageMain = document.querySelector('main');
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    var successFragment = document.createDocumentFragment();
+    successFragment.appendChild(successElement);
+    pageMain.appendChild(successFragment);
+    var closeFormSuccessMessage = function (evt) {
+      if (evt.button === 0 || evt.key === 'Escape') {
+        successElement.remove();
+      }
+    };
+    document.addEventListener('mousedown', closeFormSuccessMessage, true);
+    document.addEventListener('keydown', closeFormSuccessMessage, true);
   };
 
   window.form = {

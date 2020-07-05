@@ -2,9 +2,7 @@
 
 (function () {
   var renderAdCard = function (ad) {
-    var cardTemplate = document.querySelector('#card')
-      .content
-      .querySelector('.map__card');
+    var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var adElement = cardTemplate.cloneNode(true);
     var avatarElement = adElement.querySelector('.popup__avatar');
     var adTitle = adElement.querySelector('.popup__title');
