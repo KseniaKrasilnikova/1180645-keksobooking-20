@@ -104,6 +104,7 @@
     window.adElements.deletePinElements();
     window.card.closeOpenedCard();
     window.form.resetForm();
+    window.filters.resetFilters();
   };
 
   window.map = {
