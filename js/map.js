@@ -2,11 +2,15 @@
 
 (function () {
   var formElement = document.querySelector('.ad-form');
+  var filterElement = document.querySelector('.map__filters');
   var activeMapField = document.querySelector('.map__pins');
   var pinMainElement = document.querySelector('.map__pin--main');
   var PIN_TAIL = 22;
   var pinWithTailHeight = pinMainElement.offsetHeight + PIN_TAIL;
   var pinHalfWidth = pinMainElement.offsetWidth / 2;
+
+  var ads = [];
+  var filteredAds = [];
 
   // Активация страницы ЛКМ, Enter
   var activatePage = function (evt) {
@@ -20,13 +24,22 @@
     formElement.classList.remove('ad-form--disabled');
     window.util.setDisabledAttributes(formElement, 'input', false);
     window.util.setDisabledAttributes(formElement, 'select', false);
+    window.util.setDisabledAttributes(filterElement, 'select', false);
 
     var onSuccess = function (response) {
-      window.adElements.appendPins(response);
+      ads = response;
+      updateAds();
     };
 
     window.load.loadKeksobukingData(onSuccess);
     setAddress();
+  };
+
+  var updateAds = function () {
+    window.adElements.deletePins();
+    window.card.closeOpenedCard();
+    filteredAds = window.filter.ads(ads);
+    window.adElements.appendPins(filteredAds);
   };
 
   function isActivated() {
@@ -104,13 +117,14 @@
     window.adElements.deletePins();
     window.card.closeOpenedCard();
     window.form.resetForm();
-    window.filters.reset();
+    window.filter.reset();
   };
 
   window.map = {
     activatePage: activatePage,
     setAddress: setAddress,
     pinMainElement: pinMainElement,
-    deactivatePage: deactivatePage
+    deactivatePage: deactivatePage,
+    updateAds: updateAds
   };
 })();
