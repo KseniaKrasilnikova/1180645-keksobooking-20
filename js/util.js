@@ -31,11 +31,20 @@
     }
   }
 
+  // Удалить элемент из массива
+  function removeElementFromArray(array, element) {
+    var index = array.indexOf(element);
+    if (index > -1) {
+      array.splice(index, 1);
+    }
+  }
+
   window.util = {
     getRandomInt: getRandomInt,
     getRandomArrayItem: getRandomArrayItem,
     getRandomSubarray: getRandomSubarray,
     setDisabledAttributes: setDisabledAttributes,
-    StatusCode: StatusCode
+    StatusCode: StatusCode,
+    removeElementFromArray: removeElementFromArray
   };
 })();
