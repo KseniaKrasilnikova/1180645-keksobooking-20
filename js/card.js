@@ -2,9 +2,7 @@
 
 (function () {
   var renderAdCard = function (ad) {
-    var cardTemplate = document.querySelector('#card')
-      .content
-      .querySelector('.map__card');
+    var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var adElement = cardTemplate.cloneNode(true);
     var avatarElement = adElement.querySelector('.popup__avatar');
     var adTitle = adElement.querySelector('.popup__title');
@@ -42,6 +40,13 @@
     }, true);
 
     return adElement;
+  };
+
+  var closeOpenedCard = function () {
+    var opendCardElement = document.querySelector('.map__card');
+    if (opendCardElement !== null) {
+      opendCardElement.remove();
+    }
   };
 
   function renderPrice(adElement, price) {
@@ -86,6 +91,7 @@
   }
 
   window.card = {
-    render: renderAdCard
+    render: renderAdCard,
+    closeOpenedCard: closeOpenedCard
   };
 })();

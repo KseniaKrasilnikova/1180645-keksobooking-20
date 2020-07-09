@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var pageMain = document.querySelector('main');
   // Валидация комнат и гостей
   var formElement = document.querySelector('.ad-form');
   var roomsNumber = document.querySelector('#room_number');
@@ -55,14 +56,16 @@
   });
 
   // Валидация:соотношение типа жилья и цены
+  var houseType = formElement.querySelector('#type');
+  var housePrice = formElement.querySelector('#price');
   var mapMinPriceAndType = {
     'bungalo': 0,
     'flat': 1000,
     'house': 5000,
     'palace': 10000
   };
-  formElement.querySelector('#type').addEventListener('change', function (event) {
-    formElement.querySelector('#price').setAttribute('min', mapMinPriceAndType[event.target.value]);
+  houseType.addEventListener('change', function (event) {
+    housePrice.setAttribute('min', mapMinPriceAndType[event.target.value]);
   });
 
   // Валидация:соотношение времени заезда-выезда
@@ -83,14 +86,81 @@
   }
 
   publishButton.addEventListener('click', function (evt) {
-    if (!isFormValid()) {
-      evt.preventDefault();
+    if (isFormValid()) {
+      window.upload.uploadKeksobookingData(new FormData(formElement), function () {
+        window.map.deactivatePage();
+        showFormSuccessMessage();
+      });
     }
+    evt.preventDefault();
+  });
+
+  // Сброс формы
+  var resetForm = function () {
+    roomsNumber.options[0].selected = true;
+    guestsNumber.options[0].selected = true;
+    checkIn.options[0].selected = true;
+    checkOut.options[0].selected = true;
+    houseType.options[1].selected = true;
+    housePrice.value = null;
+    formElement.querySelector('#title').value = null;
+    formElement.querySelector('#description').value = null;
+    var features = formElement.querySelector('.features').getElementsByTagName('input');
+    for (var i = 0; i < features.length; i++) {
+      features[i].checked = false;
+    }
+    window.map.setAddress();
+    // сбросить фото (2)
+  };
+
+  // Сообщение об успешном создании объявления
+  var showFormSuccessMessage = function () {
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    var successFragment = document.createDocumentFragment();
+    successFragment.appendChild(successElement);
+    pageMain.appendChild(successFragment);
+    var closeFormSuccessMessage = function (evt) {
+      if (evt.button === 0 || evt.key === 'Escape') {
+        successElement.remove();
+      }
+    };
+    document.addEventListener('mousedown', closeFormSuccessMessage, true);
+    document.addEventListener('keydown', closeFormSuccessMessage, true);
+  };
+
+  // Сообщение об ошибке создания объявления
+  var showFormErrorMessage = function () {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorFragment = document.createDocumentFragment();
+    var errorClose = document.querySelector('.error__button');
+    errorFragment.appendChild(errorElement);
+    pageMain.appendChild(errorFragment);
+    var closeFormErrorMessage = function (evt) {
+      if (evt.button === 0 || evt.key === 'Escape') {
+        errorElement.remove();
+      }
+    };
+    document.addEventListener('mousedown', closeFormErrorMessage, true);
+    document.addEventListener('keydown', closeFormErrorMessage, true);
+    errorClose.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Enter') {
+        errorElement.remove();
+      }
+    }, true);
+  };
+
+  formElement.querySelector('.ad-form__reset').addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.map.deactivatePage();
   });
 
   window.form = {
     guestsNumber: guestsNumber,
     mapRooms: mapRooms,
-    disableSelectOptions: disableSelectOptions
+    disableSelectOptions: disableSelectOptions,
+    resetForm: resetForm,
+    showFormErrorMessage: showFormErrorMessage
   };
 })();

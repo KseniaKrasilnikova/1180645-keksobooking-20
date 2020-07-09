@@ -17,7 +17,7 @@
       return;
     }
     document.querySelector('.map').classList.remove('map--faded');
-    document.querySelector('.ad-form').classList.remove('ad-form--disabled');
+    formElement.classList.remove('ad-form--disabled');
     window.util.setDisabledAttributes(formElement, 'input', false);
     window.util.setDisabledAttributes(formElement, 'select', false);
 
@@ -25,7 +25,7 @@
       window.adElements.appendPins(response);
     };
 
-    window.loadKeksobukingData(onSuccess);
+    window.load.loadKeksobukingData(onSuccess);
     setAddress();
   };
 
@@ -41,34 +41,27 @@
   }
 
   //
+
   pinMainElement.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
-
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
-
     var dragged = false;
-
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
-
       dragged = true;
-
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
       };
-
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
-
       var newX = pinMainElement.offsetLeft - shift.x;
       var newY = pinMainElement.offsetTop - shift.y;
-
       if (newX > activeMapField.offsetWidth - pinHalfWidth) {
         newX = activeMapField.offsetWidth - pinHalfWidth;
       } else if (newX < -pinHalfWidth) {
@@ -88,10 +81,8 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-
       if (dragged) {
         var onClickPreventDefault = function (clickEvt) {
           clickEvt.preventDefault();
@@ -104,9 +95,22 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  // Деактивация страницы
+  var deactivatePage = function () {
+    document.querySelector('.map').classList.add('map--faded');
+    formElement.classList.add('ad-form--disabled');
+    window.util.setDisabledAttributes(formElement, 'input', true);
+    window.util.setDisabledAttributes(formElement, 'select', true);
+    window.adElements.deletePins();
+    window.card.closeOpenedCard();
+    window.form.resetForm();
+    window.filters.reset();
+  };
+
   window.map = {
     activatePage: activatePage,
     setAddress: setAddress,
-    pinMainElement: pinMainElement
+    pinMainElement: pinMainElement,
+    deactivatePage: deactivatePage
   };
 })();

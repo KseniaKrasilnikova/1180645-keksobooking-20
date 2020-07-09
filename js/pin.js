@@ -22,10 +22,7 @@
       if (activePinElement !== null) {
         activePinElement.classList.remove('map__pin--active');
       }
-      var opendCardElement = document.querySelector('.map__card');
-      if (opendCardElement !== null) {
-        opendCardElement.remove();
-      }
+      window.card.closeOpenedCard();
       adElement.classList.add('map__pin--active');
       window.adElements.appendCard(ad);
     });
