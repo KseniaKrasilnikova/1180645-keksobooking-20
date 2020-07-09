@@ -20,19 +20,20 @@
     if (!isActivated()) {
       return;
     }
-    document.querySelector('.map').classList.remove('map--faded');
-    formElement.classList.remove('ad-form--disabled');
-    window.util.setDisabledAttributes(formElement, 'input', false);
-    window.util.setDisabledAttributes(formElement, 'select', false);
-    window.util.setDisabledAttributes(filterElement, 'select', false);
 
     var onSuccess = function (response) {
       ads = response;
       updateAds();
+
+      document.querySelector('.map').classList.remove('map--faded');
+      formElement.classList.remove('ad-form--disabled');
+      window.util.setDisabledAttributes(formElement, 'input', false);
+      window.util.setDisabledAttributes(formElement, 'select', false);
+      window.util.setDisabledAttributes(filterElement, 'select', false);
+      setAddress();
     };
 
     window.load.loadKeksobukingData(onSuccess);
-    setAddress();
   };
 
   var updateAds = function () {
