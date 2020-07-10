@@ -50,6 +50,7 @@
       }
     };
   };
+
   window.data = {
     adTypes: adTypes,
     getAds: getAds,

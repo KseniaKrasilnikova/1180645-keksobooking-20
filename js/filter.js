@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var ADS_MAX_NUMBER = 5;
+  var housingType = null;
+
   var resetFilters = function () {
     var filterElement = document.querySelector('.map__filters');
     var houseTypes = filterElement.querySelector('#housing-type');
@@ -18,7 +21,26 @@
     }
   };
 
-  window.filters = {
-    reset: resetFilters
+  var filterAds = function (ads) {
+    var result = ads;
+    result = result.filter(function (ad) {
+      if (housingType === null) {
+        return true;
+      }
+      return ad.offer.type === housingType;
+    });
+    result = result.slice(0, ADS_MAX_NUMBER);
+    return result;
+  };
+
+  document.querySelector('#housing-type').addEventListener('change', function (event) {
+    housingType = event.target.value;
+    window.map.updateAds();
+  }
+  );
+
+  window.filter = {
+    reset: resetFilters,
+    ads: filterAds
   };
 })();
