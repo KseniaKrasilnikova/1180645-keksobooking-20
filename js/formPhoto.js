@@ -2,6 +2,7 @@
 
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var reader = new FileReader();
   var avatarFileChooser = document.querySelector('.ad-form__field input[type=file]');
   var formFileChooser = document.querySelector('.ad-form__upload input[type=file]');
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
@@ -21,9 +22,7 @@
     });
 
     if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
+        reader.addEventListener('load', function () {
         avatarPreview.src = reader.result;
       });
 
@@ -39,7 +38,6 @@
     });
 
     if (matches) {
-      var reader = new FileReader();
       reader.addEventListener('load', function () {
         formPreviewPlace.insertAdjacentElement('afterbegin', formNewElement);
         formNewElement.src = reader.result;
