@@ -57,8 +57,9 @@
             return ad.offer.price <= 10000;
           case 'high':
             return ad.offer.price >= 50000;
+          default:
+            return true;
         }
-        return true;
       });
     }
     return result;
@@ -98,53 +99,39 @@
     return result;
   }
 
-  document.querySelector('#housing-type').addEventListener('change', function (event) {
-    window.util.debounce(function () {
-      housingType = event.target.value;
-      window.map.updateAds();
-    })();
-  }
-  );
+  document.querySelector('#housing-type').addEventListener('change', window.util.debounce(function (event) {
+    housingType = event.target.value;
+    window.map.updateAds();
+  }));
 
-  document.querySelector('#housing-price').addEventListener('change', function (event) {
-    window.util.debounce(function () {
-      housingPrice = event.target.value;
-      window.map.updateAds();
-    })();
-  }
-  );
+  document.querySelector('#housing-price').addEventListener('change', window.util.debounce(function (event) {
+    housingPrice = event.target.value;
+    window.map.updateAds();
+  }));
 
-  document.querySelector('#housing-rooms').addEventListener('change', function (event) {
-    window.util.debounce(function () {
-      housingRooms = event.target.value;
-      window.map.updateAds();
-    })();
-  }
-  );
+  document.querySelector('#housing-rooms').addEventListener('change', window.util.debounce(function (event) {
+    housingRooms = event.target.value;
+    window.map.updateAds();
+  }));
 
-  document.querySelector('#housing-guests').addEventListener('change', function (event) {
-    window.util.debounce(function () {
-      housingGuests = event.target.value;
-      window.map.updateAds();
-    })();
-  }
-  );
+  document.querySelector('#housing-guests').addEventListener('change', window.util.debounce(function (event) {
+    housingGuests = event.target.value;
+    window.map.updateAds();
+  }));
 
-  window.util.debounce(function () {
-    for (var i = 0; i < featuresElements.length; i++) {
-      var featureElement = featuresElements[i];
-      (function (checkbox) {
-        checkbox.addEventListener('change', function () {
-          if (checkbox.checked) {
-            housingFeatures.push(checkbox.value);
-          } else {
-            window.util.removeElementFromArray(housingFeatures, checkbox.value);
-          }
-          window.map.updateAds();
-        });
-      })(featureElement);
-    }
-  })();
+  for (var i = 0; i < featuresElements.length; i++) {
+    var featureElement = featuresElements[i];
+    (function (checkbox) {
+      checkbox.addEventListener('change', window.util.debounce(function () {
+        if (checkbox.checked) {
+          housingFeatures.push(checkbox.value);
+        } else {
+          window.util.removeElementFromArray(housingFeatures, checkbox.value);
+        }
+        window.map.updateAds();
+      }));
+    })(featureElement);
+  }
 
   window.filter = {
     reset: resetFilters,
