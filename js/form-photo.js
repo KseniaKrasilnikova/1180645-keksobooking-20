@@ -22,9 +22,11 @@
     });
 
     if (matches) {
-      reader.addEventListener('load', function () {
+      var loadingListener = function () {
         avatarPreview.src = reader.result;
-      });
+        reader.removeEventListener('load', loadingListener);
+      };
+      reader.addEventListener('load', loadingListener);
 
       reader.readAsDataURL(file);
     }
@@ -38,11 +40,12 @@
     });
 
     if (matches) {
-      reader.addEventListener('load', function () {
+      var loadingListener = function () {
         formPreviewPlace.insertAdjacentElement('afterbegin', formNewElement);
         formNewElement.src = reader.result;
-      });
-
+        reader.removeEventListener('load', loadingListener);
+      };
+      reader.addEventListener('load', loadingListener);
       reader.readAsDataURL(file);
     }
   });
