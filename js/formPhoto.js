@@ -22,7 +22,7 @@
     });
 
     if (matches) {
-        reader.addEventListener('load', function () {
+      reader.addEventListener('load', function () {
         avatarPreview.src = reader.result;
       });
 
