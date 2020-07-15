@@ -1,14 +1,17 @@
 'use strict';
 
 (function () {
+  var PIN_TAIL = 22;
   var formElement = document.querySelector('.ad-form');
   var filterElement = document.querySelector('.map__filters');
   var activeMapField = document.querySelector('.map__pins');
   var pinMainElement = document.querySelector('.map__pin--main');
-  var PIN_TAIL = 22;
+  var defaultMainPinPadding = {
+    left: pinMainElement.style.left,
+    top: pinMainElement.style.top
+  };
   var pinWithTailHeight = pinMainElement.offsetHeight + PIN_TAIL;
   var pinHalfWidth = pinMainElement.offsetWidth / 2;
-
   var ads = [];
   var filteredAds = [];
 
@@ -17,14 +20,13 @@
     if (evt.button !== 0 && evt.key !== 'Enter') {
       return;
     }
-    if (!isActivated()) {
+    if (isActivated()) {
       return;
     }
 
     var onSuccess = function (response) {
       ads = response;
       updateAds();
-
       document.querySelector('.map').classList.remove('map--faded');
       formElement.classList.remove('ad-form--disabled');
       window.util.setDisabledAttributes(formElement, 'input', false);
@@ -44,7 +46,7 @@
   };
 
   function isActivated() {
-    return document.querySelector('.map--faded') !== null;
+    return document.querySelector('.map--faded') === null;
   }
 
   function setAddress() {
@@ -119,6 +121,9 @@
     window.card.closeOpenedCard();
     window.form.resetForm();
     window.filter.reset();
+    pinMainElement.style.top = defaultMainPinPadding.top;
+    pinMainElement.style.left = defaultMainPinPadding.left;
+    setAddress();
   };
 
   window.map = {
@@ -126,6 +131,7 @@
     setAddress: setAddress,
     pinMainElement: pinMainElement,
     deactivatePage: deactivatePage,
+    isActivated: isActivated,
     updateAds: updateAds
   };
 })();

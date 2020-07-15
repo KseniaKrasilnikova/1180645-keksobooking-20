@@ -9,7 +9,10 @@
 
     xhr.addEventListener('load', function () {
       if (xhr.status === window.util.StatusCode.OK) {
-        onSuccess(xhr.response);
+        var filteredResponse = xhr.response.filter(function (ad) {
+          return ad.offer !== null;
+        });
+        onSuccess(filteredResponse);
       }
     });
 
