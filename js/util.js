@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var DEBOUNCE_INTERVAL = 500; // ms
   var StatusCode = {
     OK: 200
   };
@@ -40,7 +41,6 @@
   }
 
   // debounce
-  var DEBOUNCE_INTERVAL = 500; // ms
   var debounce = function (cb) {
     var lastTimeout = null;
 

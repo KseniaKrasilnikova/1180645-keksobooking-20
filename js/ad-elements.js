@@ -1,7 +1,7 @@
 'use strict';
 
-// заполнение блока DOM-элементами
 (function () {
+  // заполнение блока DOM-элементами
   var appendAdPinElements = function (ads) {
     var adFragmentPin = document.createDocumentFragment();
     for (var i = 0; i < ads.length; i++) {

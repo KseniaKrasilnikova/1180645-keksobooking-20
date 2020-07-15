@@ -6,11 +6,10 @@
   var avatarFileChooser = document.querySelector('.ad-form__field input[type=file]');
   var formFileChooser = document.querySelector('.ad-form__upload input[type=file]');
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
-
+  var defaultAvatar = avatarPreview.src;
   var formNewElement = document.createElement('img');
   formNewElement.width = 70;
   formNewElement.height = 70;
-
   var formPreviewPlace = document.querySelector('.ad-form__photo');
 
   avatarFileChooser.addEventListener('change', function () {
@@ -49,4 +48,13 @@
       reader.readAsDataURL(file);
     }
   });
+
+  var resetAllPhotos = function () {
+    avatarPreview.src = defaultAvatar;
+    formNewElement.remove();
+  };
+
+  window.formPhoto = {
+    resetAllPhotos: resetAllPhotos
+  };
 })();

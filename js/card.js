@@ -22,6 +22,14 @@
     adDescription.textContent = ad.offer.description;
     renderAdPhotos(adElement, ad.offer.photos);
 
+    if (adFeature === null) {
+      adFeature.classList.add('visually-hidden');
+    }
+
+    if (ad.offer.description === null) {
+      adDescription.classList.add('visually-hidden');
+    }
+
     //  закрыть карточку с подробной информацией
     var popupClose = adElement.querySelector('.popup__close');
 
@@ -43,9 +51,9 @@
   };
 
   var closeOpenedCard = function () {
-    var opendCardElement = document.querySelector('.map__card');
-    if (opendCardElement !== null) {
-      opendCardElement.remove();
+    var openedCardElement = document.querySelector('.map__card');
+    if (openedCardElement !== null) {
+      openedCardElement.remove();
     }
   };
 
@@ -81,6 +89,11 @@
   function renderAdPhotos(adElement, photos) {
     var adPhotosElement = adElement.querySelector('.popup__photos ');
     var adPhotoElement = adElement.querySelector('.popup__photo ');
+
+    if (photos === null || photos.length === 0) {
+      adPhotosElement.classList.add('visually-hidden');
+      return;
+    }
 
     photos.forEach(function (photo) {
       var clone = adPhotoElement.cloneNode(true);

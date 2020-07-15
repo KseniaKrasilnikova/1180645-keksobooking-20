@@ -2,7 +2,6 @@
 
 (function () {
   var pageMain = document.querySelector('main');
-  // Валидация комнат и гостей
   var formElement = document.querySelector('.ad-form');
   var roomsNumber = document.querySelector('#room_number');
   var guestsNumber = document.querySelector('#capacity');
@@ -14,6 +13,7 @@
   };
   var publishButton = document.querySelector('.ad-form__submit');
 
+  // Валидация комнат и гостей
   function validateGuestsAndRooms() {
     var value = roomsNumber.options[roomsNumber.selectedIndex].value;
     var isValid = !mapRooms[value].includes(guestsNumber.selectedIndex);
@@ -55,7 +55,7 @@
     disableSelectOptions(guestsNumber, mapRooms[event.target.value]);
   });
 
-  // Валидация:соотношение типа жилья и цены
+  // Валидация: соотношение типа жилья и цены
   var houseType = formElement.querySelector('#type');
   var housePrice = formElement.querySelector('#price');
   var mapMinPriceAndType = {
@@ -66,6 +66,7 @@
   };
   houseType.addEventListener('change', function (event) {
     housePrice.setAttribute('min', mapMinPriceAndType[event.target.value]);
+    housePrice.setAttribute('placeholder', mapMinPriceAndType[event.target.value]);
   });
 
   // Валидация:соотношение времени заезда-выезда
@@ -81,18 +82,21 @@
   });
 
   function isFormValid() {
-    // plus more validation checks
+    // plus more validation checks if it's necessary
     return validateGuestsAndRooms();
   }
 
   publishButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    if (!window.map.isActivated()) {
+      return;
+    }
     if (isFormValid()) {
       window.upload.uploadKeksobookingData(new FormData(formElement), function () {
         window.map.deactivatePage();
         showFormSuccessMessage();
       });
     }
-    evt.preventDefault();
   });
 
   // Сброс формы
@@ -110,7 +114,7 @@
       features[i].checked = false;
     }
     window.map.setAddress();
-    // сбросить фото (2)
+    window.formPhoto.resetAllPhotos();
   };
 
   // Сообщение об успешном создании объявления
