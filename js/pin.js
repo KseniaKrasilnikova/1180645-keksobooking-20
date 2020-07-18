@@ -22,7 +22,7 @@
       if (activePinElement !== null) {
         activePinElement.classList.remove('map__pin--active');
       }
-      window.card.closeOpenedCard();
+      window.card.close();
       adElement.classList.add('map__pin--active');
       window.adElements.appendCard(ad);
     });

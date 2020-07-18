@@ -11,7 +11,7 @@
       if (xhr.status === window.util.StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        window.form.showFormErrorMessage();
+        window.form.showErrorMessage();
       }
     });
 
@@ -20,6 +20,6 @@
   };
 
   window.upload = {
-    uploadKeksobookingData: uploadKeksobookingData
+    keksobookingData: uploadKeksobookingData
   };
 })();

@@ -108,7 +108,7 @@
       return;
     }
     if (isFormValid()) {
-      window.upload.uploadKeksobookingData(new FormData(formElement), function () {
+      window.upload.keksobookingData(new FormData(formElement), function () {
         window.map.deactivatePage();
         showFormSuccessMessage();
       });
@@ -120,7 +120,7 @@
   });
 
   // Сброс формы
-  var resetForm = function () {
+  var reset = function () {
     roomsNumber.options[0].selected = true;
     guestsNumber.options[0].selected = true;
     checkIn.options[0].selected = true;
@@ -134,7 +134,7 @@
       features[i].checked = false;
     }
     window.map.setAddress();
-    window.formPhoto.resetAllPhotos();
+    window.formPhoto.resetAll();
   };
 
   // Сообщение об успешном создании объявления
@@ -154,7 +154,7 @@
   };
 
   // Сообщение об ошибке создания объявления
-  var showFormErrorMessage = function () {
+  var showErrorMessage = function () {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
     var errorFragment = document.createDocumentFragment();
@@ -184,7 +184,7 @@
     guestsNumber: guestsNumber,
     mapRooms: mapRooms,
     disableSelectOptions: disableSelectOptions,
-    resetForm: resetForm,
-    showFormErrorMessage: showFormErrorMessage
+    reset: reset,
+    showErrorMessage: showErrorMessage
   };
 })();

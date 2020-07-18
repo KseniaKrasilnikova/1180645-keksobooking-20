@@ -50,7 +50,7 @@
     return adElement;
   };
 
-  var closeOpenedCard = function () {
+  var close = function () {
     var openedCardElement = document.querySelector('.map__card');
     if (openedCardElement !== null) {
       openedCardElement.remove();
@@ -105,6 +105,6 @@
 
   window.card = {
     render: renderAdCard,
-    closeOpenedCard: closeOpenedCard
+    close: close
   };
 })();

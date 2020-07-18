@@ -35,12 +35,12 @@
       setAddress();
     };
 
-    window.load.loadKeksobukingData(onSuccess);
+    window.load.keksobukingData(onSuccess);
   };
 
   var updateAds = window.util.debounce(function () {
     window.adElements.deletePins();
-    window.card.closeOpenedCard();
+    window.card.close();
     filteredAds = window.filter.ads(ads);
     window.adElements.appendPins(filteredAds);
   });
@@ -118,8 +118,8 @@
     window.util.setDisabledAttributes(formElement, 'input', true);
     window.util.setDisabledAttributes(formElement, 'select', true);
     window.adElements.deletePins();
-    window.card.closeOpenedCard();
-    window.form.resetForm();
+    window.card.close();
+    window.form.reset();
     window.filter.reset();
     pinMainElement.style.top = defaultMainPinPadding.top;
     pinMainElement.style.left = defaultMainPinPadding.left;

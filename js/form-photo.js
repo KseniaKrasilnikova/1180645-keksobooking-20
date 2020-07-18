@@ -49,12 +49,12 @@
     }
   });
 
-  var resetAllPhotos = function () {
+  var resetAll = function () {
     avatarPreview.src = defaultAvatar;
     formNewElement.remove();
   };
 
   window.formPhoto = {
-    resetAllPhotos: resetAllPhotos
+    resetAll: resetAll
   };
 })();

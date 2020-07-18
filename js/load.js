@@ -21,7 +21,7 @@
   };
 
   window.load = {
-    loadKeksobukingData: loadKeksobukingData,
+    keksobukingData: loadKeksobukingData,
   };
 })();
 
