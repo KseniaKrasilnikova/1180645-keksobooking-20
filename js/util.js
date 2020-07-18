@@ -6,20 +6,6 @@
     OK: 200
   };
 
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * max) + min;
-  }
-
-  function getRandomArrayItem(array) {
-    return array[getRandomInt(0, array.length)];
-  }
-
-  function getRandomSubarray(array) {
-    return array.filter(function () {
-      return Math.random() >= 0.5;
-    });
-  }
-
   // Неактивное состояние
   function setDisabledAttributes(form, tagName, isDisable) {
     var elements = form.getElementsByTagName(tagName);
@@ -56,9 +42,6 @@
   };
 
   window.util = {
-    getRandomInt: getRandomInt,
-    getRandomArrayItem: getRandomArrayItem,
-    getRandomSubarray: getRandomSubarray,
     setDisabledAttributes: setDisabledAttributes,
     StatusCode: StatusCode,
     removeElementFromArray: removeElementFromArray,
