@@ -13,6 +13,24 @@
   };
   var publishButton = document.querySelector('.ad-form__submit');
 
+  function validateTitle() {
+    var formTitle = formElement.querySelector('#title');
+    var isValid = formTitle.value.length >= formTitle.minLength && formTitle.value.length <= formTitle.maxLength;
+    if (!isValid) {
+      formTitle.classList.add('ad-form__element--invalid');
+    }
+    return isValid;
+  }
+
+  function validatePrice() {
+    var formPrice = formElement.querySelector('#price');
+    var isValid = parseInt(formPrice.value, 10) >= formPrice.min && parseInt(formPrice.value, 10) <= formPrice.max;
+    if (!isValid) {
+      formPrice.classList.add('ad-form__element--invalid');
+    }
+    return isValid;
+  }
+
   // Валидация комнат и гостей
   function validateGuestsAndRooms() {
     var value = roomsNumber.options[roomsNumber.selectedIndex].value;
@@ -82,12 +100,10 @@
   });
 
   function isFormValid() {
-    // plus more validation checks if it's necessary
-    return validateGuestsAndRooms();
+    return validateGuestsAndRooms() && validateTitle() && validatePrice();
   }
 
-  publishButton.addEventListener('click', function (evt) {
-    evt.preventDefault();
+  publishButton.addEventListener('mouseup', function (evt) {
     if (!window.map.isActivated()) {
       return;
     }
@@ -97,6 +113,10 @@
         showFormSuccessMessage();
       });
     }
+  });
+
+  publishButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
   });
 
   // Сброс формы
