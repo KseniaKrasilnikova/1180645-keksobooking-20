@@ -38,19 +38,19 @@
     window.load.loadKeksobukingData(onSuccess);
   };
 
-  var updateAds = function () {
+  var updateAds = window.util.debounce(function () {
     window.adElements.deletePins();
     window.card.closeOpenedCard();
     filteredAds = window.filter.ads(ads);
     window.adElements.appendPins(filteredAds);
-  };
+  });
 
   function isActivated() {
     return document.querySelector('.map--faded') === null;
   }
 
   function setAddress() {
-    var yOffset = isActivated() ? Math.floor(pinMainElement.offsetHeight / 2) : pinWithTailHeight;
+    var yOffset = isActivated() ? pinWithTailHeight : Math.floor(pinMainElement.offsetHeight / 2);
     var x = pinMainElement.offsetLeft + Math.floor(pinHalfWidth);
     var y = pinMainElement.offsetTop + yOffset;
     formElement.querySelector('#address').value = x + ', ' + y;

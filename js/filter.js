@@ -99,37 +99,37 @@
     return result;
   }
 
-  document.querySelector('#housing-type').addEventListener('change', window.util.debounce(function (event) {
+  document.querySelector('#housing-type').addEventListener('change', function (event) {
     housingType = event.target.value;
     window.map.updateAds();
-  }));
+  });
 
-  document.querySelector('#housing-price').addEventListener('change', window.util.debounce(function (event) {
+  document.querySelector('#housing-price').addEventListener('change', function (event) {
     housingPrice = event.target.value;
     window.map.updateAds();
-  }));
+  });
 
-  document.querySelector('#housing-rooms').addEventListener('change', window.util.debounce(function (event) {
+  document.querySelector('#housing-rooms').addEventListener('change', function (event) {
     housingRooms = event.target.value;
     window.map.updateAds();
-  }));
+  });
 
-  document.querySelector('#housing-guests').addEventListener('change', window.util.debounce(function (event) {
+  document.querySelector('#housing-guests').addEventListener('change', function (event) {
     housingGuests = event.target.value;
     window.map.updateAds();
-  }));
+  });
 
   for (var i = 0; i < featuresElements.length; i++) {
     var featureElement = featuresElements[i];
     (function (checkbox) {
-      checkbox.addEventListener('change', window.util.debounce(function () {
+      checkbox.addEventListener('change', function () {
         if (checkbox.checked) {
           housingFeatures.push(checkbox.value);
         } else {
           window.util.removeElementFromArray(housingFeatures, checkbox.value);
         }
         window.map.updateAds();
-      }));
+      });
     })(featureElement);
   }
 
