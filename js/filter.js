@@ -3,6 +3,14 @@
 (function () {
   var ADS_MAX_NUMBER = 5;
   var ANY_OPTION = 'any';
+  var MIN_PRICE = 10000;
+  var MAX_PRICE = 50000;
+  var housingPriceEnum = {
+    MIDDLE: 'middle',
+    LOW: 'low',
+    HIGH: 'high'
+  };
+
   var housingType = ANY_OPTION;
   var housingPrice = ANY_OPTION;
   var housingRooms = ANY_OPTION;
@@ -51,12 +59,12 @@
     if (housingPrice !== ANY_OPTION) {
       result = result.filter(function (ad) {
         switch (housingPrice) {
-          case 'middle':
-            return ad.offer.price >= 10000 && ad.offer.price <= 50000;
-          case 'low':
-            return ad.offer.price <= 10000;
-          case 'high':
-            return ad.offer.price >= 50000;
+          case housingPriceEnum.MIDDLE:
+            return ad.offer.price >= MIN_PRICE && ad.offer.price <= MAX_PRICE;
+          case housingPriceEnum.LOW:
+            return ad.offer.price <= MIN_PRICE;
+          case housingPriceEnum.HIGH:
+            return ad.offer.price >= MAX_PRICE;
           default:
             return true;
         }
