@@ -103,7 +103,7 @@
     return validateGuestsAndRooms() && validateTitle() && validatePrice();
   }
 
-  publishButton.addEventListener('mouseup', function (evt) {
+  publishButton.addEventListener('mouseup', function () {
     if (!window.map.isActivated()) {
       return;
     }
