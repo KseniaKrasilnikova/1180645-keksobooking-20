@@ -16,7 +16,7 @@
   var housingRooms = ANY_OPTION;
   var housingGuests = ANY_OPTION;
   var housingFeatures = [];
-  var featuresElements = document.querySelector('#housing-features').getElementsByTagName('input');
+  var features = document.querySelector('#housing-features').getElementsByTagName('input');
 
   var resetFilters = function () {
     var filterElement = document.querySelector('.map__filters');
@@ -125,8 +125,8 @@
     window.map.updateAds();
   });
 
-  for (var i = 0; i < featuresElements.length; i++) {
-    var featureElement = featuresElements[i];
+  for (var i = 0; i < features.length; i++) {
+    var featureElement = features[i];
     (function (checkbox) {
       checkbox.addEventListener('change', function () {
         if (checkbox.checked) {
