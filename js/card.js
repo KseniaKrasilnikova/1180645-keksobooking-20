@@ -5,33 +5,33 @@
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var adElement = cardTemplate.cloneNode(true);
     var avatarElement = adElement.querySelector('.popup__avatar');
-    var adTitle = adElement.querySelector('.popup__title');
-    var adAddress = adElement.querySelector('.popup__text--address');
-    var adType = adElement.querySelector('.popup__type');
-    var adFeature = adElement.querySelector('.popup__features');
-    var adDescription = adElement.querySelector('.popup__description');
+    var adTitleElement = adElement.querySelector('.popup__title');
+    var adAddressElement = adElement.querySelector('.popup__text--address');
+    var adTypeElement = adElement.querySelector('.popup__type');
+    var adFeatureElements = adElement.querySelector('.popup__features');
+    var adDescriptionElement = adElement.querySelector('.popup__description');
 
     avatarElement.src = ad.author.avatar;
-    adTitle.textContent = ad.offer.title;
-    adAddress.textContent = ad.offer.address;
+    adTitleElement.textContent = ad.offer.title;
+    adAddressElement.textContent = ad.offer.address;
     renderPrice(adElement, ad.offer.price);
-    adType.textContent = window.data.adTypes[ad.offer.type];
+    adTypeElement.textContent = window.data.adTypes[ad.offer.type];
     renderRoomsAndGuests(adElement, ad.offer);
     renderCheckTime(adElement, ad.offer);
-    adFeature.textContent = ad.offer.features;
-    adDescription.textContent = ad.offer.description;
+    adFeatureElements.textContent = ad.offer.features;
+    adDescriptionElement.textContent = ad.offer.description;
     renderAdPhotos(adElement, ad.offer.photos);
 
-    if (adFeature === null) {
-      adFeature.classList.add('visually-hidden');
+    if (adFeatureElements === null) {
+      adFeatureElements.classList.add('visually-hidden');
     }
 
     if (ad.offer.description === null) {
-      adDescription.classList.add('visually-hidden');
+      adDescriptionElement.classList.add('visually-hidden');
     }
 
     //  закрыть карточку с подробной информацией
-    var popupClose = adElement.querySelector('.popup__close');
+    var popupCloseButton = adElement.querySelector('.popup__close');
 
     var closeCard = function (evt) {
       if (evt.button === 0 || evt.key === 'Escape') {
@@ -39,9 +39,9 @@
       }
     };
 
-    popupClose.addEventListener('mousedown', closeCard, true);
+    popupCloseButton.addEventListener('mousedown', closeCard, true);
     document.addEventListener('keydown', closeCard, true);
-    popupClose.addEventListener('keydown', function (evt) {
+    popupCloseButton.addEventListener('keydown', function (evt) {
       if (evt.key === 'Enter') {
         adElement.remove();
       }
@@ -58,12 +58,12 @@
   };
 
   function renderPrice(adElement, price) {
-    var adPrice = adElement.querySelector('.popup__text--price');
-    adPrice.textContent = price + ' ₽/ночь';
+    var adPriceElement = adElement.querySelector('.popup__text--price');
+    adPriceElement.textContent = price + ' ₽/ночь';
   }
 
   function renderRoomsAndGuests(adElement, offer) {
-    var adRoomsAndGuests = adElement.querySelector('.popup__text--capacity');
+    var adRoomsAndGuestsElement = adElement.querySelector('.popup__text--capacity');
     var adRooms = offer.rooms + ' комнаты';
     var adGuests = offer.guests + ' гостей';
 
@@ -78,12 +78,12 @@
       adGuests = offer.guests + ' гостя';
     }
 
-    adRoomsAndGuests.textContent = adRooms + ' для ' + adGuests;
+    adRoomsAndGuestsElement.textContent = adRooms + ' для ' + adGuests;
   }
 
   function renderCheckTime(adElement, offer) {
-    var adCheckTime = adElement.querySelector('.popup__text--time');
-    adCheckTime.textContent = 'Заезд после ' + offer.checkout + ', выезд до ' + offer.checkin;
+    var adCheckTimeElement = adElement.querySelector('.popup__text--time');
+    adCheckTimeElement.textContent = 'Заезд после ' + offer.checkout + ', выезд до ' + offer.checkin;
   }
 
   function renderAdPhotos(adElement, photos) {

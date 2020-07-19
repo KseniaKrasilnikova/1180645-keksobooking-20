@@ -158,7 +158,7 @@
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
     var errorFragment = document.createDocumentFragment();
-    var errorClose = document.querySelector('.error__button');
+    var errorCloseButton = document.querySelector('.error__button');
     errorFragment.appendChild(errorElement);
     pageMain.appendChild(errorFragment);
     var closeFormErrorMessage = function (evt) {
@@ -168,7 +168,7 @@
     };
     document.addEventListener('mousedown', closeFormErrorMessage, true);
     document.addEventListener('keydown', closeFormErrorMessage, true);
-    errorClose.addEventListener('keydown', function (evt) {
+    errorCloseButton.addEventListener('keydown', function (evt) {
       if (evt.key === 'Enter') {
         errorElement.remove();
       }

@@ -9,12 +9,12 @@
       .content
       .querySelector('.map__pin');
     var adElement = pinTemplate.cloneNode(true);
-    var avatarElement = adElement.getElementsByTagName('img')[0];
+    var avatar = adElement.getElementsByTagName('img')[0];
 
     adElement.style.left = ad.location.x - PIN_HALF_WIDTH + 'px';
     adElement.style.top = ad.location.y - PIN_HEIGHT + 'px';
-    avatarElement.src = ad.author.avatar;
-    avatarElement.alt = ad.offer.title;
+    avatar.src = ad.author.avatar;
+    avatar.alt = ad.offer.title;
 
     // открыть карточку любого доступного объявления
     adElement.addEventListener('click', function () {

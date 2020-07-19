@@ -24,14 +24,14 @@
     var housePrices = filterElement.querySelector('#housing-price');
     var houseRooms = filterElement.querySelector('#housing-rooms');
     var houseGuests = filterElement.querySelector('#housing-guests');
-    var features = filterElement.querySelector('.map__features').getElementsByTagName('input');
+    var featuresElements = filterElement.querySelector('.map__features').getElementsByTagName('input');
 
     houseTypes.options[0].selected = true;
     housePrices.options[0].selected = true;
     houseRooms.options[0].selected = true;
     houseGuests.options[0].selected = true;
-    for (var i = 0; i < features.length; i++) {
-      features[i].checked = false;
+    for (var i = 0; i < featuresElements.length; i++) {
+      featuresElements[i].checked = false;
     }
   };
 

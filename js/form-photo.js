@@ -3,17 +3,17 @@
 (function () {
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var reader = new FileReader();
-  var avatarFileChooser = document.querySelector('.ad-form__field input[type=file]');
-  var formFileChooser = document.querySelector('.ad-form__upload input[type=file]');
-  var avatarPreview = document.querySelector('.ad-form-header__preview img');
-  var defaultAvatar = avatarPreview.src;
-  var formNewElement = document.createElement('img');
-  formNewElement.width = 70;
-  formNewElement.height = 70;
-  var formPreviewPlace = document.querySelector('.ad-form__photo');
+  var avatarFileChooserInput = document.querySelector('.ad-form__field input[type=file]');
+  var formFileChooserInput = document.querySelector('.ad-form__upload input[type=file]');
+  var avatarPreviewImg = document.querySelector('.ad-form-header__preview img');
+  var defaultAvatarImg = avatarPreviewImg.src;
+  var formNewImg = document.createElement('img');
+  formNewImg.width = 70;
+  formNewImg.height = 70;
+  var formPreviewElement = document.querySelector('.ad-form__photo');
 
-  avatarFileChooser.addEventListener('change', function () {
-    var file = avatarFileChooser.files[0];
+  avatarFileChooserInput.addEventListener('change', function () {
+    var file = avatarFileChooserInput.files[0];
     var fileName = file.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
@@ -22,7 +22,7 @@
 
     if (matches) {
       var loadingListener = function () {
-        avatarPreview.src = reader.result;
+        avatarPreviewImg.src = reader.result;
         reader.removeEventListener('load', loadingListener);
       };
       reader.addEventListener('load', loadingListener);
@@ -31,8 +31,8 @@
     }
   });
 
-  formFileChooser.addEventListener('change', function () {
-    var file = formFileChooser.files[0];
+  formFileChooserInput.addEventListener('change', function () {
+    var file = formFileChooserInput.files[0];
     var fileName = file.name.toLowerCase();
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
@@ -40,8 +40,8 @@
 
     if (matches) {
       var loadingListener = function () {
-        formPreviewPlace.insertAdjacentElement('afterbegin', formNewElement);
-        formNewElement.src = reader.result;
+        formPreviewElement.insertAdjacentElement('afterbegin', formNewImg);
+        formNewImg.src = reader.result;
         reader.removeEventListener('load', loadingListener);
       };
       reader.addEventListener('load', loadingListener);
@@ -50,8 +50,8 @@
   });
 
   var resetAll = function () {
-    avatarPreview.src = defaultAvatar;
-    formNewElement.remove();
+    avatarPreviewImg.src = defaultAvatarImg;
+    formNewImg.remove();
   };
 
   window.formPhoto = {
